@@ -1,4 +1,23 @@
+# Import library
+import psycopg2
 
+def source_database_connection(
+        host="xxxx",
+        database="xxxx",
+        user="xxxx",
+        password="xxxx",
+        port="xxxx"
+):
+    # Connect to the target PostgreSQL database
+    connection_target = psycopg2.connect(
+        host=host,
+        database=database,
+        user=user,
+        password=password,
+        port=port
+    )
+
+    return connection_target
 
 def query_supplier():
     """
@@ -29,7 +48,7 @@ def query_supplier():
         inner join "SUPPLIER_SUP" or_supplier on or_supplier.sup_id = sup_doh_fk
         where tas_sup_fk = 22 and age_sup_fk is not null 
         group by or_supplier.sup_id, or_supplier.sup_corporatename 
-        having sum(doh_amount) >= 500 or extract(year from min(or_docheader_compra.doh_date)) = extract(year from CURRENT_DATE)) a
+        having sum(doh_amount) >= 500 or extract(year from min(or_docheader_compra.doh_date)) = extract(year from CURRENT_DATE)) 
     """
 
     return sql
@@ -56,7 +75,7 @@ def query_productos():
 def query_categoria_producto():
     """
         ¿Qué devuelve esta query?:
-        Las categorias de los productos, las familias
+        Las categorias de los productos, las familias de los productos
     """
 
     sql = """
@@ -114,7 +133,7 @@ def query_lines_compras():
 def query_agentes_proveedores():
     """
         ¿Qué devuelve esta query?:
-        Las comerciales de los proveedores
+        Las comerciales de cada uno de los proveedores
     """
     sql = """
         select age_id, age_order, age_name, current_timestamp as fecha_registro from "AGENT_AGE" aa 
