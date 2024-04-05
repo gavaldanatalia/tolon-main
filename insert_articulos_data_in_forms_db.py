@@ -16,7 +16,7 @@ conn = mysql.connector.connect(
     database="tolon_forms2"
 )
 
-print("Conexion extablecida")
+print("Conexion establecida")
 
 # Crear un cursor para ejecutar consultas
 cursor = conn.cursor()

@@ -12,20 +12,24 @@ conn = psycopg2.connect(
 # Crear un cursor para ejecutar consultas
 cursor = conn.cursor()
 
-# Ejecutar la consulta SQL
-query = query_from_source_db.query_supplier()
-cursor.execute(query)
+array_query = [query_from_source_db.query_articulos()]
+array_file_name = ["prueba_articulos.csv"]
 
-# Obtener los resultados de la consulta
-results = cursor.fetchall()
+for query in array_query:
+    for file in array_file_name:
+        # Ejecutar la consulta SQL
+        cursor.execute(query)
 
-# Cerrar el cursor y la conexión
-cursor.close()
-conn.close()
+        # Obtener los resultados de la consulta
+        results = cursor.fetchall()
 
-# Guardar los resultados en un archivo local
-with open('prueba_proveedor.csv', 'w') as f:
-    for row in results:
-        f.write(str(row) + ';')
+        # Cerrar el cursor y la conexión
+        cursor.close()
+        conn.close()
 
-print("Los resultados se han guardado en 'prueba_proveedor.csv'.")
+        # Guardar los resultados en un archivo local
+        with open(f'{file}', 'w') as f:
+            for row in results:
+                f.write(str(row) + ';')
+
+        print(f"Los resultados se han guardado en {file}.")

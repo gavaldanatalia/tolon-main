@@ -1,23 +1,4 @@
 # Import library
-import psycopg2
-
-def source_database_connection(
-        host="xxxx",
-        database="xxxx",
-        user="xxxx",
-        password="xxxx",
-        port="xxxx"
-):
-    # Connect to the target PostgreSQL database
-    connection_target = psycopg2.connect(
-        host=host,
-        database=database,
-        user=user,
-        password=password,
-        port=port
-    )
-
-    return connection_target
 
 def query_supplier():
     """
@@ -53,7 +34,7 @@ def query_supplier():
 
     return sql
 
-def query_productos():
+def query_articulos():
     """
         ¿Qué devuelve esta query?:
         Productos que recogen los chóferes de los camiones
