@@ -120,3 +120,13 @@ def query_agentes_proveedores():
         select age_id, age_order, age_name, current_timestamp as fecha_registro from "AGENT_AGE" aa 
         """
     return sql
+
+def query_registros_chofer():
+    """
+        ¿Qué devuelve esta query?:
+        Las comerciales de cada uno de los proveedores
+    """
+    sql = """
+        select * from registros
+        """
+    return sql

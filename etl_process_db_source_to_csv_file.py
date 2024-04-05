@@ -1,35 +1,44 @@
-import psycopg2
+import mysql.connector
 import query_from_source_db
+import datetime
 
 # Establecer la conexión a la base de datos
-conn = psycopg2.connect(
-    dbname="nombre_basedatos",
-    user="usuario",
-    password="contraseña",
-    host="localhost"  # Puedes cambiar esto según tu configuración
+conn = mysql.connector.connect(
+    host="tolon.spaindev.com",
+    user="tolon_db_adm",
+    password="Jpk47~84n",
+    port="3306",
+    database="tolon_forms2"
 )
+
+print("Conexion establecida")
 
 # Crear un cursor para ejecutar consultas
 cursor = conn.cursor()
 
-array_query = [query_from_source_db.query_articulos()]
-array_file_name = ["prueba_articulos.csv"]
+# Query
+query = query_from_source_db.query_registros_chofer()
 
-for query in array_query:
-    for file in array_file_name:
-        # Ejecutar la consulta SQL
-        cursor.execute(query)
+# Ejecutar la consulta SQL
+cursor.execute(query)
 
-        # Obtener los resultados de la consulta
-        results = cursor.fetchall()
+# Obtener los resultados de la consulta
+results = cursor.fetchall()
 
-        # Cerrar el cursor y la conexión
-        cursor.close()
-        conn.close()
+print(results)
 
-        # Guardar los resultados en un archivo local
-        with open(f'{file}', 'w') as f:
-            for row in results:
-                f.write(str(row) + ';')
+# Cerrar el cursor y la conexión
+cursor.close()
+conn.close()
 
-        print(f"Los resultados se han guardado en {file}.")
+# Dónde queremos guardar la información de los registros
+file = "/Users/ngavalda/PycharmProjects/tolon-main/data/prueba_registros"
+
+# Guardar los resultados en un archivo local
+with open(f'{file}.txt', 'w') as f:
+    for row in results:
+        # Convertir la fecha a string en el formato deseado 'YYYY-MM-DD'
+        formatted_row = [str(val.strftime('%Y/%m/%d')) if isinstance(val, datetime.date) else str(val) for val in row]
+        f.write(', '.join(formatted_row) + '\n')
+
+print(f"Los resultados se han guardado en {file}.")
